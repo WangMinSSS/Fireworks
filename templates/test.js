@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Fireworks</title>
-    <style>* { padding: 0; margin: 0; }</style>
-    <script src="/static/phaser.js"></script>
-</head>
-<body>
-    <script>
-
 var w=window.innerWidth
 || document.documentElement.clientWidth
 || document.body.clientWidth;
@@ -26,18 +15,14 @@ function preload() {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
-    //game.load.image('ball', '/static/ball.png');
-
+    //game.load.image('arrow', '/static/circle.png');
 }
 
 var sprite;
-var sprite1;
-
 
 function create() {
     //console.log('create');
     game.stage.backgroundColor = '#000000';
-
 
     //  Create our bitmapData which we'll use as a Sprite texture
     var bmd = game.add.bitmapData(24, 24);
@@ -46,36 +31,14 @@ function create() {
     bmd.context.fill();
     game.cache.addBitmapData('circle', bmd);
 
+    //  Now let's make some sprites using this texture, one every second
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  This one is just for reference (next to the instructions text)
     sprite = game.add.sprite(400, 300, game.cache.getBitmapData('circle'));
     sprite.anchor.setTo(0.5, 0.5);
-    sprite.tint = Phaser.Color.ORANGE;
 
-    sprite1 = game.add.sprite(600, 300, game.cache.getBitmapData('circle'));   
-    sprite1.anchor.setTo(0.5, 0.5);
-    sprite1.tint = Phaser.Color.GREEN;
-
-    
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.physics.arcade.enable([sprite, sprite1]);
-    sprite.body.setCircle(12);
-    sprite1.body.setCircle(12);
-    sprite.body.bounce.set(1);
-    sprite1.body.bounce.set(1);
-    //sprite1.body.immovable = true;
-    sprite.body.collideWorldBounds = true;
-    sprite1.body.collideWorldBounds = true;
-
-/*
-    sprite.body.onCollide = new Phaser.Signal();
-    sprite.body.onCollide.add(hitEvent, this);
-
-
-    function hitEvent() {
-    	//console.log('hit!');
-    }
-*/    
+    game.physics.enable(sprite, Phaser.Physics.ARCADE);
 
     //game.physics.arcade.gravity.set(0, 10);
 
@@ -86,17 +49,10 @@ function create() {
 
 function update() {
     //console.log('update');
-    sprite.rotation = game.physics.arcade.moveToPointer(sprite, 60, game.input.activePointer, 500);
-    game.physics.arcade.collide(sprite, sprite1);
-
+    //sprite.rotation = game.physics.arcade.moveToPointer(sprite, 60, game.input.activePointer, 500);
 }
 
 function render() {
     //console.log('render');
     game.debug.spriteInfo(sprite, 32, 32);
 }
-
-
-    </script>
-</body>
-</html>
