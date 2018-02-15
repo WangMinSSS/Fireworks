@@ -42,11 +42,11 @@ span{
 </style>
 </head>
 <body>
-<canvas id="canvas" width="1280" height="574"></canvas>
+<canvas id="canvas"></canvas>
 
 <audio src="/static/children.mp3" autoplay="autoplay" loop="loop">
 </audio>
-<h1>happy new year<span>!</span></h1>
+<h1>Happy New Year <span>2018</span></h1>
 <script>
 function initVars(){
 
@@ -58,7 +58,7 @@ function initVars(){
 	cy=canvas.height/2;
 	playerZ=-25;
 	playerX=playerY=playerVX=playerVY=playerVZ=pitch=yaw=pitchV=yawV=0;
-	scale=600;
+	scale=500;
 	seedTimer=0;seedInterval=5,seedLife=100;gravity=.02;
 	seeds=new Array();
 	sparkPics=new Array();
@@ -69,10 +69,6 @@ function initVars(){
 		sparkPics.push(sparkPic);
 	}
 	sparks=new Array();
-	pow1=new Audio(s+"pow1.ogg");
-	pow2=new Audio(s+"pow2.ogg");
-	pow3=new Audio(s+"pow3.ogg");
-	pow4=new Audio(s+"pow4.ogg");
 	frames = 0;
 }
 
@@ -169,15 +165,6 @@ function splode(x,y,z){
 		spark.trail=new Array();
 		sparks.push(spark);
 	}
-	switch(parseInt(Math.random()*4)){
-		case 0:	pow=new Audio(s+"pow1.ogg"); break;
-		case 1:	pow=new Audio(s+"pow2.ogg"); break;
-		case 2:	pow=new Audio(s+"pow3.ogg"); break;
-		case 3:	pow=new Audio(s+"pow4.ogg"); break;
-	}
-	d=Math.sqrt((x-playerX)*(x-playerX)+(y-playerY)*(y-playerY)+(z-playerZ)*(z-playerZ));
-	pow.volume=1.5/(1+d/10);
-	pow.play();
 }
 
 function doLogic(){
@@ -246,24 +233,11 @@ function rgb(col){
 
 function draw(){
 	
-	ctx.clearRect(0,0,cx*2,cy*2);
+	ctx.clearRect(0,0,cx*2,cy*2);			//清屏
 	
-	ctx.fillStyle="#ff8";
-	for(i=-100;i<100;i+=3){
-		for(j=-100;j<100;j+=4){
-			x=i;z=j;y=25;
-			point=rasterizePoint(x,y,z);
-			if(point.d!=-1){
-				size=250/(1+point.d);
-				d = Math.sqrt(x * x + z * z);
-				a = 0.75 - Math.pow(d / 100, 6) * 0.75;
-				if(a>0){
-					ctx.globalAlpha = a;
-					ctx.fillRect(point.x-size/2,point.y-size/2,size,size);				
-				}
-			}
-		}
-	}
+	
+	ctx.fillStyle="#fff";					//设置或返回用于填充绘画的颜色、渐变或模式
+
 	ctx.globalAlpha=1;
 	for(i=0;i<seeds.length;++i){
 		point=rasterizePoint(seeds[i].x,seeds[i].y,seeds[i].z);
